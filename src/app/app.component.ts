@@ -1,13 +1,21 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { AuthService } from './auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterModule, CommonModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Social-awareness-web-application';
+  title = 'my-app';
+  isLoggedIn$: Observable<boolean>;
+
+  constructor(public authService: AuthService) {
+    this.isLoggedIn$ = this.authService.isLoggedIn();
+  }
 }
