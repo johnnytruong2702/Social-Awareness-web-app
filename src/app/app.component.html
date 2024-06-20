@@ -1,11 +1,13 @@
 <nav>
-    <ul id="nav-bar">
-      <li><a routerLink="/">Home</a></li>
-      <li id="login" *ngIf="!(isLoggedIn$ | async)"><a routerLink="/login">Login</a></li>
-      <li id="signup" *ngIf="!(isLoggedIn$ | async)"><a routerLink="/signup">Sign up</a></li>
-      <li id="logout" *ngIf="isLoggedIn$ | async"><a (click)="authService.logout()">Logout</a></li>
-    </ul>
-  </nav>
-  
-  <router-outlet></router-outlet>
-  
+  <ul id="nav-bar">
+    <li><a routerLink="/">Home</a></li>
+    <li id="login" *ngIf="!(isLoggedIn$ | async)"><a routerLink="/login">Login</a></li>
+    <li id="signup" *ngIf="!(isLoggedIn$ | async)"><a routerLink="/signup">Sign up</a></li>
+    <li id="logout" *ngIf="isLoggedIn$ | async">
+      <span *ngIf="username$ | async as username">Welcome, {{ username }}</span>
+      <a (click)="authService.logout()">Logout</a>
+    </li>
+  </ul>
+</nav>
+
+<router-outlet></router-outlet>

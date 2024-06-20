@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators';
 })
 export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(false);
+  private username = new BehaviorSubject<string | null>(null);
   private token: string | null = null;
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -16,14 +17,25 @@ export class AuthService {
   isLoggedIn(): Observable<boolean> {
     return this.loggedIn.asObservable();
   }
+  getUsername(): Observable<string | null> {
+    return this.username.asObservable();
+  }
+
+  setUsername(username: string | null): void {
+    this.username.next(username);
+  }
 
   login(email: string, password: string): void {
-    this.http.post<any>('/api/users/login', { email, password })
-      .pipe(map(response => response.token))
-      .subscribe(token => {
-        this.token = token;
+    this.http.post<any>('http://localhost:3000/api/users/login', { email, password })
+      .pipe(map(response => {
+        this.token = response.token;
+        return response.username;  // Assuming the backend returns the username
+      }))
+      .subscribe(username => {
+        this.username.next(username);
         this.loggedIn.next(true);
-        localStorage.setItem('token', token);
+        localStorage.setItem('token', this.token || '');  // Handle null token
+        localStorage.setItem('username', username);  // Store username in localStorage
         this.router.navigate(['/']);
       }, error => {
         console.error('Login error:', error);
@@ -31,9 +43,9 @@ export class AuthService {
   }
 
   register(username: string, email: string, password: string): void {
-    this.http.post<any>('/api/users/register', { username, email, password })
+    this.http.post<any>('http://localhost:3000/api/users/register', { username, email, password })
       .subscribe(() => {
-        this.login(email, password); // Auto login after registration
+        this.login(email, password);  // Auto login after registration
       }, error => {
         console.error('Registration error:', error);
       });
@@ -41,8 +53,10 @@ export class AuthService {
 
   logout(): void {
     this.token = null;
+    this.username.next(null);
     this.loggedIn.next(false);
     localStorage.removeItem('token');
+    localStorage.removeItem('username');  // Remove username from localStorage
     this.router.navigate(['/']);
   }
 }

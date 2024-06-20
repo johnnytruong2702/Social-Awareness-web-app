@@ -10,6 +10,14 @@ const JWT_SECRET = 'your_jwt_secret'; // Replace with a secure secret key
 router.post('/register', async (req, res) => {
   try {
     const { username, email, password } = req.body;
+    console.log(username);
+    console.log(email);
+    console.log(password);
+
+    if (!username || !email || !password) {
+        return res.status(400).json({ error: 'All fields are required' });
+      }
+
     const user = new User({ username, email, password });
     await user.save();
     res.status(201).json({ message: 'User registered successfully' });
@@ -20,23 +28,25 @@ router.post('/register', async (req, res) => {
 
 // Login user
 router.post('/login', async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).json({ error: 'Invalid email or password' });
+    try {
+      const { email, password } = req.body;
+      console.log(email);
+      console.log(password);
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res.status(400).json({ error: 'Invalid email or password' });
+      }
+  
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(400).json({ error: 'Invalid email or password' });
+      }
+  
+      const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
+      res.json({ token });
+    } catch (err) {
+      res.status(400).json({ error: err.message });
     }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ error: 'Invalid email or password' });
-    }
-
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
-    res.json({ token });
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
+  });
 
 module.exports = router;
