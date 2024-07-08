@@ -26,7 +26,7 @@ export class AuthService {
   }
 
   login(email: string, password: string): void {
-    this.http.post<any>('/https://social-awareness-backendapp.netlify.app/api/users/login', { email, password })
+    this.http.post<any>('https://social-awareness-backendapp.netlify.app/api/users/login', { email, password })
       .pipe(map(response => {
         this.token = response.token;
         return response.username;  // Assuming the backend returns the username
@@ -43,7 +43,7 @@ export class AuthService {
   }
 
   register(username: string, email: string, password: string): void {
-    this.http.post<any>('/https://social-awareness-backendapp.netlify.app/api/users/register', { username, email, password })
+    this.http.post<any>('https://social-awareness-backendapp.netlify.app/api/users/register', { username, email, password })
       .subscribe(() => {
         this.login(email, password);  // Auto login after registration
       }, error => {
