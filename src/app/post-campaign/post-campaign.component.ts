@@ -2,12 +2,13 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgModel } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 
 @Component({
   selector: 'app-post-campaign',
   standalone: true,
-  imports:[FormsModule],
+  imports:[FormsModule, CommonModule],
   templateUrl: './post-campaign.component.html'
 })
 export class PostCampaignComponent {
