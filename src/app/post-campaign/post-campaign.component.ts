@@ -9,7 +9,8 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
   selector: 'app-post-campaign',
   standalone: true,
   imports:[FormsModule, CommonModule],
-  templateUrl: './post-campaign.component.html'
+  templateUrl: './post-campaign.component.html',
+  styleUrls: ['./post-campaign.component.css']
 })
 export class PostCampaignComponent {
   title = '';
