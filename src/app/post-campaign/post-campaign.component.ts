@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   selector: 'app-post-campaign',
   templateUrl: './post-campaign.component.html',
+  styleUrls: ['./post-campaign.component.css'],
   imports: [FormsModule]
 })
 export class PostCampaignComponent {
