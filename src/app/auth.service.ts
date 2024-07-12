@@ -11,6 +11,7 @@ export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(false);
   private username = new BehaviorSubject<string | null>(null);
   private token: string | null = null;
+  private currentUser: { username: string, role: string } | null = null;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -58,5 +59,9 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('username');  // Remove username from localStorage
     this.router.navigate(['/']);
+  }
+
+  getRole(): string {
+    return this.currentUser ? this.currentUser.role : '';
   }
 }

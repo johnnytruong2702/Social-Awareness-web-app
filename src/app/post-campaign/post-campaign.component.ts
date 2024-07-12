@@ -1,16 +1,14 @@
 // src/app/components/post-campaign/post-campaign.component.ts
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { NgModel } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // Import FormsModule
+import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-post-campaign',
   standalone: true,
-  imports:[FormsModule, CommonModule],
+  selector: 'app-post-campaign',
   templateUrl: './post-campaign.component.html',
-  styleUrls: ['./post-campaign.component.css']
+  imports: [FormsModule]
 })
 export class PostCampaignComponent {
   title = '';
@@ -18,15 +16,15 @@ export class PostCampaignComponent {
   author = '';
   message = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
-  onSubmit() {
-    this.http.post('/.netlify/functions/postCampaign', {
+  postCampaign() {
+    this.http.post('/.netlify/functions/api/campaign', {
       title: this.title,
       description: this.description,
       author: this.author
     }).subscribe((response: any) => {
-      this.message = response.message || 'Error posting campaign';
+      this.router.navigate(['/success']);
     });
   }
 }

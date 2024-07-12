@@ -1,6 +1,6 @@
 <!-- src/app/components/post-campaign/post-campaign.component.html -->
 <h2>Post a Campaign</h2>
-<form (ngSubmit)="onSubmit()">
+<form (ngSubmit)="postCampaign()">
   <div>
     <label for="title">Title:</label>
     <input type="text" id="title" [(ngModel)]="title" name="title" required>

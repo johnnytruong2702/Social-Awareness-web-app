@@ -1,0 +1,8 @@
+<!-- src/app/components/admin/admin.component.html -->
+<h2>Admin Page</h2>
+<ul>
+  <li *ngFor="let campaign of campaigns">
+    <p>{{ campaign.title }} by {{ campaign.author }}</p>
+    <button (click)="approveCampaign(campaign._id)">Approve</button>
+  </li>
+</ul>
