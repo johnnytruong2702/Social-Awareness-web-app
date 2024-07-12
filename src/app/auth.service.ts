@@ -58,7 +58,7 @@ export class AuthService {
     this.loggedIn.next(false);
     localStorage.removeItem('token');
     localStorage.removeItem('username');  // Remove username from localStorage
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
   }
 
   getRole(): string {

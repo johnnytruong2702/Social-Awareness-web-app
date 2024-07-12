@@ -14,7 +14,8 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'post-campaign', component: PostCampaignComponent, canActivate: [RoleGuard], data: { expectedRole: ['user', 'businessOwner'] } },
+  { path: 'post-campaign', component: PostCampaignComponent}
+  //{ path: 'post-campaign', component: PostCampaignComponent, canActivate: [RoleGuard], data: { expectedRole: ['user', 'businessOwner'] } },
   { path: 'success', component: SuccessComponent },
   { path: 'admin', component: AdminComponent, canActivate: [RoleGuard], data: { expectedRole: 'admin' } },
 ];
