@@ -9,19 +9,26 @@ import { Observable } from 'rxjs';
   standalone: true,
   imports: [RouterModule, CommonModule],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
   title = 'my-app';
-  isLoggedIn$: Observable<boolean>;
-  username$: Observable<string | null>;
+  isLoggedIn$: Observable<boolean> | undefined;
+  username$: Observable<string | null> | undefined;
 
-  constructor(public authService: AuthService) {
-    this.isLoggedIn$ = this.authService.isLoggedIn();
-    this.username$ = this.authService.getUsername(); // Define username$ here
-  }
+  constructor(public authService: AuthService) {}
 
   ngOnInit() {
+    if (localStorage.getItem('token') !== null) {
+      this.authService.setLoggedIn(true);
+    }
+
+    if (localStorage.getItem('username') !== null) {
+      this.authService.setUsername(localStorage.getItem('username'));
+    }
+
+    this.isLoggedIn$ = this.authService.isLoggedIn();
+    this.username$ = this.authService.getUsername(); // Define username$ here
     if (typeof window !== 'undefined' && localStorage) {
       const storedUsername = localStorage.getItem('username');
       if (storedUsername) {

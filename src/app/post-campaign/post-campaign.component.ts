@@ -22,11 +22,19 @@ export class PostCampaignComponent {
 
   postCampaign() {
     this.http
-      .post('https://social-awareness-backendapp.netlify.app/api/campaign', {
-        title: this.title,
-        description: this.description,
-        author: this.author,
-      })
+      .post(
+        'https://social-awareness-backendapp.netlify.app/api/campaign',
+        {
+          title: this.title,
+          description: this.description,
+          author: this.author,
+        },
+        {
+          headers: {
+            Authorization: `${localStorage.getItem('token')}`,
+          },
+        }
+      )
       .subscribe((response: any) => {
         this.router.navigate(['/success']);
       });
